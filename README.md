@@ -1,5 +1,5 @@
 # localLLM
-Locally host LLMs.
+Locally host LLMs and serve them via OpenWebUI.
 
 ## Prerequisites - Install Ollama and OpenWebUI
 If root access is available, install Ollama with the below command.
@@ -24,6 +24,7 @@ conda create --name open-webui python=3.11
 conda activate open-webui
 pip install open-webui  # requires Python3.11
 ```
+
 
 ## Select and run a desired model
 Select a [desired model](https://ollama.com/search). For demonstration purposes we are using `DeepSeek-R1-Distill-Qwen-32B` which is identified simply by: `deepseek-r1:32b`.
