@@ -1,0 +1,43 @@
+# Nice blog article, explaining the details: https://www.bitdoze.com/ollama-docker-install/
+# CPU only or AMD GPU adaptations are also available there. Furthermore, how to setup a 
+# reverse proxy for save access from outside the local network.
+# The admin can pull models via the WebUI, else it will detect all models already in: /scratch/global_1/ollama_models
+
+version: '3.8'
+
+services:
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    restart: unless-stopped
+    ports:
+      - "11434:11434"  # Expose Ollama's API port locally
+    volumes:
+      - /scratch/global_1/ollama_models:/root/.ollama  # Persist models on scratch/global_1
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              capabilities: ["gpu"]
+    networks:
+      - ollama-net
+
+  openwebui:
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: openwebui
+    restart: unless-stopped
+    ports:
+      - "3000:8080"  # Map local port 3000 to Open WebUI's 8080
+    volumes:
+      - /scratch/global_1/openwebui-data:/app/backend/data  # Persist WebUI data
+    environment:
+      - OLLAMA_BASE_URL=http://ollama:11434  # Connect webui to Ollama service
+    depends_on:
+      - ollama
+    networks:
+      - ollama-net
+
+networks:
+  ollama-net:
+    driver: bridge
