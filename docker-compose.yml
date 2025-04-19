@@ -13,7 +13,7 @@ services:
     ports:
       - "11434:11434"  # Expose Ollama's API port locally
     volumes:
-      - /scratch/global_1/ollama_models:/root/.ollama  # Persist models on scratch/global_1
+      - /scratch/global_1/ollama_models:/root/.ollama/models  # Persist models on scratch/global_1
     deploy:
       resources:
         reservations:
