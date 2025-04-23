@@ -6,9 +6,9 @@ Locally host LLMs and serve them via OpenWebUI.
 docker-compose up
 # docker-compose down  # shutdown the service
 ```
-Access the chat interface at: http://ocean:3000.
+Access the chat interface at: http://localhost:3000.
 Additional models can be simply selected via the WebUI or from the terminal: `docker exec -it ollama ollama pull deepseek-r1:1.5b`. Check available models [here](https://ollama.com/search).
-The Ollama API can be accessed at http://ocean:11434/ and used for diverse other applications like VScode e.g. (see [faq.md](faq.md) for more use cases and advanced configurations).
+The Ollama API can be accessed at http://localhost:11434/ and used for diverse other applications like VScode e.g. (see [faq.md](faq.md) for more use cases and advanced configurations).
 
 ## Manual install (not recommended)
 Might have issues actually using the GPUs despite detected. Ollama install without user privileges is a pain. Better use docker and dont waste your time.
@@ -28,7 +28,7 @@ Select the lastest [pre-built binary](https://github.com/ollama/ollama/releases)
 curl -L https://github.com/ollama/ollama/releases/download/v0.6.6-rc2/ollama-linux-amd64.tgz | tar -xzf - -C ~/opt/
 mv ~/opt/bin/ollama ~/opt/; rm -r ~/opt/bin/
 echo 'export PATH=$PATH:~/opt/' >> ~/.bashrc
-echo 'export OLLAMA_MODELS=/scratch/global_1/ollama_models' >> ~/.bashrc
+echo 'export OLLAMA_MODELS=~/ollama-local' >> ~/.bashrc
 source ~/.bashrc
 ```
 ```

@@ -15,9 +15,9 @@ models:
     model: deepseek-r1:32b
     roles:
       - chat
-    apiBase: http://ocean:11434 
+    apiBase: http://localhost:11434 
 ```
-Alternatively, you can also click and navigate through the menu to add models yourself. It is important to point to the local Ollama API at http://ocean:11434 (which stays the same for all the local models).
+Alternatively, you can also click and navigate through the menu to add models yourself. It is important to point to the local Ollama API at http://localhost:11434 (which stays the same for all the local models).
 deepseek-r1:32b is now enabled for chat (roles: chat).
 
 ### Autocompletion
@@ -30,7 +30,7 @@ models:
     model: starcoder2:15b
     roles:
       - autocomplete
-    apiBase: http://ocean:11434 
+    apiBase: http://localhost:11434 
 ```
 
 ## Models for image generation
@@ -41,5 +41,5 @@ You can use the ollama API directly, too but the output is rather non human read
 
 Example query from the terminal to the API endpoint of ollama
 ```
-curl http://ocean:11434/api/generate -d '{ "model": "deepseek-r1:32b", "prompt": "What is water made of?" }'
+curl http://localhost:11434/api/generate -d '{ "model": "deepseek-r1:32b", "prompt": "What is water made of?" }'
 ```

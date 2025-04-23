@@ -1,7 +1,7 @@
 # Nice blog article, explaining the details: https://www.bitdoze.com/ollama-docker-install/
 # CPU only or AMD GPU adaptations are also available there. Furthermore, how to setup a 
 # reverse proxy for save access from outside the local network.
-# The admin can pull models via the WebUI, else it will detect all models already in: /scratch/global_1/ollama_models
+# The admin can pull models via the WebUI, else it will detect all models already in: ollama-local
 
 version: '3.8'
 
@@ -13,7 +13,7 @@ services:
     ports:
       - "11434:11434"  # Expose Ollama's API port locally
     volumes:
-      - /scratch/global_1/ollama_models:/root/.ollama/models  # Persist models on scratch/global_1
+      - ~/ollama-local:/root/.ollama/models  # Persist models on scratch/global_1
     deploy:
       resources:
         reservations:
@@ -30,7 +30,8 @@ services:
     ports:
       - "3000:8080"  # Map local port 3000 to Open WebUI's 8080
     volumes:
-      - /scratch/global_1/openwebui-data:/app/backend/data  # Persist WebUI data
+      - ~/open-webui-local:/app/backend/data  # Persist WebUI data
+#       - /etc/ssl/servercert/cert.pem:/app/backend/data/cert.pem  # LDAP vertificate for user authentication in organization
     environment:
       - OLLAMA_BASE_URL=http://ollama:11434  # Connect webui to Ollama service
     depends_on:
