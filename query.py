@@ -1,4 +1,5 @@
 import os
+import httpx
 
 from dotenv import load_dotenv
 from langchain_ollama import ChatOllama
@@ -14,6 +15,15 @@ print(f"API Key: {api_key}")
 print(f"SSL_CERT_FILE: {os.environ.get('SSL_CERT_FILE')}")
 
 
+# Discover available models from Ollama
+with httpx.Client(base_url=base_url, headers={"Authorization": f"Bearer {api_key}"}, timeout=15.0) as s:
+    resp = s.get("/api/tags")
+    resp.raise_for_status()
+    models = [m.get("name") for m in resp.json().get("models", [])]
+print(f"Available models: {models}")
+
+
+# Chat with an Ollama model
 client = ChatOllama(
     model="qwen3:30b-a3b",
     base_url=base_url,
