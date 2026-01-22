@@ -1,17 +1,37 @@
+import os
+from dotenv import load_dotenv
+from langchain_ollama import ChatOllama
+
+load_dotenv()
+
 class Agent:
-    def __init__(self, name, role, goal):
+    def __init__(self, name, role, goal, model="qwen3:30b-a3b"):
         self.name = name
         self.role = role
         self.goal = goal
+        self.model = model
+        self.base_url = os.environ["CUSTOM_BASE_URL"]
+        self.api_key = os.environ["OPENWEBUI_SECRET_KEY"]
+        self.llm = ChatOllama(
+            model=self.model,
+            base_url=self.base_url,
+            client_kwargs={
+                "headers": {"Authorization": f"Bearer {self.api_key}"},
+            },
+        )
 
     def act(self, observation):
         """
-        Simple agentic behavior: respond based on role and goal.
+        Respond based on role, goal, and observation, using the LLM.
         """
-        return (
-            f"[{self.name} - {self.role}] My goal is: {self.goal}. "
-            f"I observed: '{observation}'. I will take action accordingly."
+        prompt = (
+            f"You are {self.name}, a {self.role}. "
+            f"Your goal is: {self.goal}. "
+            f"Observation: {observation}\n"
+            f"What should you do next?"
         )
+        response = self.llm.predict(text=prompt)
+        return response
 
 if __name__ == "__main__":
     # Example usage
@@ -20,5 +40,5 @@ if __name__ == "__main__":
         role="Research Assistant",
         goal="Summarize scientific articles efficiently."
     )
-    observation = "Received a new article on quantum computing."
+    observation = "Paste your article here that should be summarized."
     print(agent.act(observation))
