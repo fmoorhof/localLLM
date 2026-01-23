@@ -49,3 +49,10 @@ ollama run deepseek-r1:32b
 open-webui serve
 ```
 In your browser you should now be able to see the interface at `http://localhost:8080`
+
+## Programmatic use via Python
+This repository also contains examples for accessing a local LLM (Ollama) and integrating external tools (such as the MassBank3 API) from Python. The following files demonstrate these capabilities:
+
+- **query.py**: This will print available LLM models, run a sample LLM query, and demonstrate how to fetch compound data from MassBank (tool server integration).
+- **agents.py**: Provides a simple agent class that interacts with the LLM, demonstrating how to define agent roles and goals for agentic workflows.
+- **tools.py**: Contains a universal Python tool for accessing the MassBank3 API, with examples for searching compounds and retrieving chemical data.

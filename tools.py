@@ -3,10 +3,10 @@ import httpx
 
 class MassBankTool:
     """
-    Universal tool to interact with the MassBank3 API (https://msbi.ipb-halle.de/MassBank3-api/ui/openapi.json).
+    Universal tool to interact with the MassBank3 API (https://massbank.eu/MassBank-api/ui/openapi.json).
     This tool can be used by an LLM agent to call any endpoint with arbitrary parameters.
     """
-    BASE_URL = "https://msbi.ipb-halle.de/MassBank3-api"
+    BASE_URL = "https://massbank.eu/MassBank-api"
 
     def __init__(self, verify_ssl=True):
         self.verify_ssl = verify_ssl
