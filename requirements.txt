@@ -1,3 +1,4 @@
 python-dotenv
 langchain-ollama
 httpx
+openai
