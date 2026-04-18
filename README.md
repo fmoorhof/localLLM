@@ -37,7 +37,21 @@ conda activate open-webui
 pip install open-webui  # requires Python3.11
 ```
 
-## Select and run a desired model
+##### Update existing Ollama version
+Select the lastest [pre-built binary](https://github.com/ollama/ollama/releases). Afterwards select the version that matches your system architecture. If you are not sure type: `uname -m` into your terminal.
+```
+curl -L https://github.com/ollama/ollama/releases/download/v0.21.0/ollama-linux-amd64.tar.zst | tar -I zstd -xvf - -C ~/opt/
+mv ~/opt/bin/ollama ~/opt/; rm -r ~/opt/bin/
+```
+Troubleshooting:
+```
+ollama --version
+```
+ollama version is 0.12.5
+Warning: client version is 0.21.0
+I dont know what to do about that but all new features of ollama are working seamlessly, also latest models are available.
+
+## Select and run a desired model locally
 Select a [desired model](https://ollama.com/search). For demonstration purposes we are using `DeepSeek-R1-Distill-Qwen-32B` which is identified simply by: `deepseek-r1:32b`.
 ```
 ollama serve
@@ -50,9 +64,35 @@ open-webui serve
 ```
 In your browser you should now be able to see the interface at `http://localhost:8080`
 
-## Programmatic use via Python
+## Only serve LLM in a docker container
+```
+docker run -d --gpus=all -v /scratch/global_1/ollama_models/:/root/.ollama/models -p 11434:11434 --name ollama ollama/ollama
+docker exec -it ollama ollama run gpt-oss:20b
+```
+
+## Integrations
+### Programmatic use via Python
 This repository also contains examples for accessing a local LLM (Ollama) and integrating external tools (such as the MassBank3 API) from Python. The following files demonstrate these capabilities:
 
 - **query.py**: This will print available LLM models, run a sample LLM query, and demonstrate how to fetch compound data from MassBank (tool server integration).
 - **agents.py**: Provides a simple agent class that interacts with the LLM, demonstrating how to define agent roles and goals for agentic workflows.
 - **tools.py**: Contains a universal Python tool for accessing the MassBank3 API, with examples for searching compounds and retrieving chemical data.
+
+### Claude Code
+Install claude code from the official website (for me i used `curl -fsSL https://claude.ai/install.sh | bash`). i used Version: 2.1.114 (default install location is: Location: ~/.local/bin/claude)
+Navigate to your project where you like try Claude Code on
+```
+# cd your_repo
+OLLAMA_CONTEXT_LENGTH=8192 ollama launch claude --model qwen3.6
+```
+`OLLAMA_CONTEXT_LENGTH=8192` increases the context length by 2x from 4096 (default).
+
+### n8n workflows
+```
+docker run -it --rm \
+  -p 5678:5678 \
+  -e NODE_EXTRA_CA_CERTS=/ipb-ca-bis2026.pem \
+  -e N8N_SECURE_COOKIE=false \
+  -v /etc/ssl/servercert/ipb_ca.bis2026.pem:/ipb-ca-bis2026.pem:ro \
+  docker.n8n.io/n8nio/n8n
+```

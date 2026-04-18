@@ -13,7 +13,8 @@ services:
     ports:
       - "11434:11434"  # Expose Ollama's API port locally
     volumes:
-      - ~/ollama-local:/root/.ollama/models  # Persist models on scratch/global_1
+      - /scratch/global_1/ollama_models:/root/.ollama/models  # Persist models on scratch/global_1 for IPB
+      # - ~/ollama-local:/root/.ollama/models  # USE THIS DEFAULT LOCATION OUTSIDE IPB NETWORK
     deploy:
       resources:
         reservations:
@@ -30,8 +31,9 @@ services:
     ports:
       - "3000:8080"  # Map local port 3000 to Open WebUI's 8080
     volumes:
-      - ~/open-webui-local:/app/backend/data  # Persist WebUI data
-#       - /etc/ssl/servercert/cert.pem:/app/backend/data/cert.pem  # LDAP vertificate for user authentication in organization
+      - /scratch/global_1/openwebui-data:/app/backend/data  # Persist WebUI data on scratch/global_1 for IPB
+      - ~/open-webui-local:/app/backend/data  # USE THIS DEFAULT LOCATION OUTSIDE IPB NETWORK
+#       - /etc/ssl/servercert/cert.pem:/app/backend/data/cert.pem  # LDAP vertificate for user authentication in IPB organization
     environment:
       - OLLAMA_BASE_URL=http://ollama:11434  # Connect webui to Ollama service
     depends_on:
