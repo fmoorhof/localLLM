@@ -25,7 +25,7 @@ Get Ollama for users (without root privileges): https://github.com/ollama/ollama
 
 Select the lastest [pre-built binary](https://github.com/ollama/ollama/releases). Afterwards select the version that matches your system architecture. If you are not sure type: `uname -m` into your terminal. x86_64 means amd64 which I will use.
 ```
-curl -L https://github.com/ollama/ollama/releases/download/v0.6.6-rc2/ollama-linux-amd64.tgz | tar -xzf - -C ~/opt/
+curl -L https://github.com/ollama/ollama/releases/download/v0.21.0/ollama-linux-amd64.tar.zst | tar -I zstd -xvf - -C ~/opt/
 mv ~/opt/bin/ollama ~/opt/; rm -r ~/opt/bin/
 echo 'export PATH=$PATH:~/opt/' >> ~/.bashrc
 echo 'export OLLAMA_MODELS=~/ollama-local' >> ~/.bashrc
