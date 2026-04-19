@@ -1,0 +1,3 @@
+FROM qwen3.5:35b
+# ollama create claude-sonnet-4-6 -f .vscode/Modelfile  # instead of -4-6 maybe Claude expects a different naming for your model
+# ollama run claude-sonnet-4-6  # testing if in IDE is not working ad hoc 

@@ -67,7 +67,7 @@ In your browser you should now be able to see the interface at `http://localhost
 ## Only serve LLM in a docker container
 ```
 docker run -d --gpus=all -v /scratch/global_1/ollama_models/:/root/.ollama/models -p 11434:11434 --name ollama ollama/ollama
-docker exec -it ollama ollama run gpt-oss:20b
+docker exec -it ollama ollama run qwen3.5
 ```
 
 ## Integrations
@@ -83,9 +83,17 @@ Install claude code from the official website (for me i used `curl -fsSL https:/
 Navigate to your project where you like try Claude Code on
 ```
 # cd your_repo
-OLLAMA_CONTEXT_LENGTH=8192 ollama launch claude --model qwen3.6
+OLLAMA_CONTEXT_LENGTH=8192 ollama launch claude --model qwen3.5
 ```
 `OLLAMA_CONTEXT_LENGTH=8192` increases the context length by 2x from 4096 (default).
+
+For better directory structure and visual inspection of changes it is recommended to run Claude from within an IDE. VScode example.
+- Get Claude Code extension, try to prompt something
+- check `.vscode/settings.json` if your model is served there
+- check `.vscode/Modelfile` if it contains your desired LLM
+- overwrite default model claude-sonnet by local model `ollama create claude-sonnet-4-6 -f .vscode/Modelfile`
+- Claude Code extension, try to prompt something
+Full details and instructions adapted from this [article](https://medium.com/@mouatez.chaita/how-to-run-claude-code-vs-code-extension-locally-with-ollama-)
 
 ### n8n workflows
 ```
