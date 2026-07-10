@@ -78,6 +78,25 @@ This repository also contains examples for accessing a local LLM (Ollama) and in
 - **agents.py**: Provides a simple agent class that interacts with the LLM, demonstrating how to define agent roles and goals for agentic workflows.
 - **tools.py**: Contains a universal Python tool for accessing the MassBank3 API, with examples for searching compounds and retrieving chemical data.
 
+### GitHub Copilot CLI
+Visual Studio Code supports running agent sessions in the background by using GitHub Copilot CLI. You can start, monitor, and manage your Copilot CLI sessions from the unified Chat view in VS Code, while the agents run autonomously on your local machine while you continue other work in the editor. Run multiple Copilot CLI sessions in parallel to tackle independent tasks simultaneously. More info [here](https://code.visualstudio.com/docs/agents/agent-types/copilot-cli)
+
+```
+docker build -t copilot -f Dockerfile-copilotCLI .
+docker run --name copilot-playground-localLLM --rm -it -e COPILOT_PROVIDER_API_KEY=$OPENWEBUI_SECRET_KEY -v ./:/work copilot
+```
+
+Troubleshooting:
+- replace `-v ./:` either with all your code repositories or start a container for each repo you are using it for to limit its access to other repositories.
+- make sure to have the latest VScode version (or to avoid version conflicts between npm install -g @github/copilot and VScode)
+- All additional specifications or requirements are listed in the corresponding Dockerfile
+- make sure the SSL Certificate is once in the folder you build the image from
+- make sure the SSL Certificate has the same name for `COPY` and `ENV` in the corresponding Dockerfile
+- `$OPENWEBUI_SECRET_KEY` environment variable needs to be set system wide of course
+
+Code and idea from @flange-ipb
+https://github.com/ipb-halle/playground_flange/tree/main/copilot_cli
+
 ### Claude Code
 Install claude code from the official website (for me i used `curl -fsSL https://claude.ai/install.sh | bash`). i used Version: 2.1.114 (default install location is: Location: ~/.local/bin/claude)
 Navigate to your project where you like try Claude Code on

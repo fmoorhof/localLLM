@@ -1,0 +1,23 @@
+FROM node:latest
+
+RUN set -ex && \
+    npm install -g @github/copilot
+
+# Snakeoil SSL certificate, see https://wiki.ipb-halle.de/index.php/IPB-CA
+# not possible to use ~/ipb_ca.bis2026.pem or other locations. need to be in folder:/
+COPY ipb_ca.bis2026.crt /
+ENV NODE_EXTRA_CA_CERTS=/ipb_ca.bis2026.crt
+
+
+WORKDIR /work
+
+# Use
+# * https://chat.ipb-halle.de/api or https://chat.ipb-halle.de/ollama/v1 for "completions" API
+# * https://chat.ipb-halle.de/ollama/v1 for "responses" API
+ENV COPILOT_PROVIDER_BASE_URL=https://chat.ipb-halle.de/api
+ENV COPILOT_PROVIDER_WIRE_API=completions
+ENV COPILOT_MODEL=qwen3.6:35b
+ENV COPILOT_PROVIDER_MAX_PROMPT_TOKENS=200000
+ENV COPILOT_PROVIDER_MAX_OUTPUT_TOKENS=60000
+
+CMD ["copilot"]
